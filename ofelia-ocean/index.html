@@ -346,33 +346,31 @@
       position: sticky;
       top: 140px;
       display: flex;
+      flex-direction: column;
       align-items: flex-start;
-      gap: 4px;
+      gap: 0;
     }
     .news-heading-inner {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
     }
     .news-eyebrow {
       font-family: var(--sans);
       font-weight: 500;
-      font-size: 13px;
-      letter-spacing: 8px;
+      font-size: 11px;
+      letter-spacing: 6px;
       text-transform: uppercase;
       color: var(--coral);
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      margin-bottom: 18px;
+      writing-mode: horizontal-tb;
+      transform: none;
+      margin-bottom: 4px;
     }
     .news-heading h2 {
       font-family: var(--serif);
       font-weight: 700;
       font-size: clamp(90px, 11vw, 150px);
       color: var(--black);
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      transform: rotate(180deg);
       line-height: 0.82;
       letter-spacing: 2px;
     }
@@ -455,14 +453,13 @@
       position: absolute;
     }
 
-    /* About section drops */
+    /* About section drops — positioned outside the portrait area */
     .about-drops {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100px;
-      height: 200px;
+      bottom: 20px;
+      right: 30px;
+      width: 80px;
+      height: 120px;
       pointer-events: none;
       z-index: 3;
     }
@@ -733,7 +730,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--sand);
+      background: var(--white);
       overflow: hidden;
     }
     /* RETRATO — forma orgánica tipo gota de agua que muta suavemente */
@@ -800,7 +797,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(10,22,40,0.2) 0%, rgba(10,22,40,0.7) 100%);
+      background: linear-gradient(180deg, rgba(10,22,40,0.3) 0%, rgba(10,22,40,0.8) 100%);
       z-index: 1;
     }
     .ocean-soldiers::after {
@@ -846,7 +843,7 @@
       font-family: var(--sans);
       font-size: 13px;
       font-weight: 300;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.75);
       max-width: 440px;
       line-height: 1.75;
       margin-top: 16px;
@@ -939,25 +936,12 @@
       }
       .news-heading {
         position: static;
-        flex-direction: row;
-        align-items: baseline;
-        gap: 14px;
-      }
-      .news-heading-inner { flex-direction: row; align-items: baseline; gap: 14px; }
-      .news-eyebrow {
-        writing-mode: horizontal-tb;
-        transform: none;
-        margin-bottom: 0;
-        font-size: 12px;
-        letter-spacing: 5px;
       }
       .news-heading h2 {
-        writing-mode: horizontal-tb;
-        transform: none;
         font-size: clamp(48px, 16vw, 72px);
         line-height: 1;
       }
-      .water-drop { margin-top: 0; align-self: center; }
+      .water-drop { display: none; }
 
       .news-card { grid-template-columns: 1fr; gap: 14px; }
       .news-card-img { width: 100%; height: 220px; }
@@ -1105,9 +1089,9 @@
       <div class="portrait-ring reveal-scale"></div>
       <div class="portrait-circle reveal-scale" style="transition-delay:0.2s"></div>
       <div class="about-drops">
-        <div class="water-drop-sm" style="top:0;left:20px;animation-delay:0s;"></div>
-        <div class="water-drop-lg" style="top:60px;left:50px;animation-delay:0.8s;"></div>
-        <div class="water-drop-sm" style="top:140px;left:10px;animation-delay:1.5s;"></div>
+        <div class="water-drop-sm" style="top:0;left:0;animation-delay:0s;"></div>
+        <div class="water-drop-lg" style="top:40px;left:30px;animation-delay:0.8s;"></div>
+        <div class="water-drop-sm" style="top:90px;left:10px;animation-delay:1.5s;"></div>
       </div>
       <div class="portrait-watermark">Ofelia<br>Méndez</div>
     </div>
