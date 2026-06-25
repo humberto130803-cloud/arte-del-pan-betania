@@ -244,9 +244,7 @@
       align-items: center;
       text-align: center;
       overflow: hidden;
-      background: var(--hero-bg);
-      background-size: cover;
-      background-position: center;
+      background: url('images/hero.jpg') center/cover no-repeat, var(--hero-bg);
     }
     /* Overlay de profundidad */
     .hero::before {
@@ -382,6 +380,72 @@
       border-radius: 50%;
     }
 
+    /* GOTAS DE AGUA — variantes de tamaño */
+    .water-drop-sm {
+      width: 10px;
+      height: 14px;
+      background: radial-gradient(ellipse at 40% 30%, rgba(255,255,255,0.7), rgba(12,53,71,0.05));
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: 0 1px 6px rgba(12,53,71,0.06), inset 0 -1px 3px rgba(12,53,71,0.03);
+      animation: dropFloat 3.5s ease-in-out infinite;
+      position: relative;
+      display: inline-block;
+    }
+    .water-drop-sm::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 50%;
+    }
+    .water-drop-lg {
+      width: 22px;
+      height: 30px;
+      background: radial-gradient(ellipse at 35% 25%, rgba(255,255,255,0.75), rgba(12,53,71,0.08));
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: 0 4px 16px rgba(12,53,71,0.1), inset 0 -3px 6px rgba(12,53,71,0.05);
+      animation: dropFloat 5s ease-in-out infinite;
+      position: relative;
+      display: inline-block;
+    }
+    .water-drop-lg::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 7px;
+      height: 7px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+    }
+
+    /* Gotas flotantes posicionadas absolutamente */
+    .floating-drops {
+      position: absolute;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .floating-drops .water-drop-sm,
+    .floating-drops .water-drop-lg,
+    .floating-drops .water-drop {
+      position: absolute;
+    }
+
+    /* About section drops */
+    .about-drops {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 200px;
+      pointer-events: none;
+      z-index: 3;
+    }
+
     .news-cards { display: flex; flex-direction: column; gap: 28px; }
     .news-card {
       display: grid;
@@ -407,10 +471,10 @@
       transition: transform 0.6s ease;
     }
     .news-card:hover .img-placeholder { transform: scale(1.08); }
-    /* Placeholder gradients para cada card */
-    .news-card:nth-child(1) .img-placeholder { background: linear-gradient(135deg, var(--ocean), var(--coral)); }
-    .news-card:nth-child(2) .img-placeholder { background: linear-gradient(135deg, #1a8a6e, var(--ocean)); }
-    .news-card:nth-child(3) .img-placeholder { background: linear-gradient(135deg, var(--coral-dark), var(--ocean-light)); }
+    /* News card images — shows image if uploaded, gradient fallback */
+    .news-card:nth-child(1) .img-placeholder { background: url('images/news-1.jpg') center/cover no-repeat, linear-gradient(135deg, var(--ocean), var(--coral)); }
+    .news-card:nth-child(2) .img-placeholder { background: url('images/news-2.jpg') center/cover no-repeat, linear-gradient(135deg, #1a8a6e, var(--ocean)); }
+    .news-card:nth-child(3) .img-placeholder { background: url('images/news-3.jpg') center/cover no-repeat, linear-gradient(135deg, var(--coral-dark), var(--ocean-light)); }
 
     .news-card-date {
       font-family: var(--sans);
@@ -549,11 +613,11 @@
       margin-top: 2px;
     }
 
-    /* Placeholder backgrounds */
-    .coll-card:nth-child(1) .bg { background: linear-gradient(160deg, #0C3547, #1a8a6e); }
-    .coll-card:nth-child(2) .bg { background: linear-gradient(160deg, #E8614D, #c0392b); }
-    .coll-card:nth-child(3) .bg { background: linear-gradient(160deg, #1a5276, #2e86c1); }
-    .coll-card:nth-child(4) .bg { background: linear-gradient(160deg, #d4ac0d, #E8614D); }
+    /* Collection backgrounds — shows image if uploaded, gradient fallback */
+    .coll-card:nth-child(1) .bg { background: url('images/coll-iseayou.jpg') center/cover no-repeat, linear-gradient(160deg, #0C3547, #1a8a6e); }
+    .coll-card:nth-child(2) .bg { background: url('images/coll-talisman.jpg') center/cover no-repeat, linear-gradient(160deg, #E8614D, #c0392b); }
+    .coll-card:nth-child(3) .bg { background: url('images/coll-synergy.jpg') center/cover no-repeat, linear-gradient(160deg, #1a5276, #2e86c1); }
+    .coll-card:nth-child(4) .bg { background: url('images/coll-borealis.jpg') center/cover no-repeat, linear-gradient(160deg, #d4ac0d, #E8614D); }
 
     /* SECCIÓN 5 — ABOUT / FOUNDER */
     .about {
@@ -621,9 +685,7 @@
       width: clamp(280px, 28vw, 380px);
       height: clamp(280px, 28vw, 380px);
       border-radius: 50%;
-      background: var(--portrait-bg);
-      background-size: cover;
-      background-position: center top;
+      background: url('images/portrait.jpg') center top/cover no-repeat, var(--portrait-bg);
       position: relative;
       z-index: 2;
       /* Sombra suave */
@@ -660,9 +722,7 @@
       display: flex;
       align-items: flex-end;
       overflow: hidden;
-      background: var(--ocean-bg);
-      background-size: cover;
-      background-position: center;
+      background: url('images/ocean-soldiers.jpg') center/cover no-repeat, var(--ocean-bg);
     }
     .ocean-soldiers::before {
       content: '';
@@ -926,6 +986,11 @@
     <div class="about-portrait">
       <div class="portrait-ring reveal-scale"></div>
       <div class="portrait-circle reveal-scale" style="transition-delay:0.2s"></div>
+      <div class="about-drops">
+        <div class="water-drop-sm" style="top:0;left:20px;animation-delay:0s;"></div>
+        <div class="water-drop-lg" style="top:60px;left:50px;animation-delay:0.8s;"></div>
+        <div class="water-drop-sm" style="top:140px;left:10px;animation-delay:1.5s;"></div>
+      </div>
       <div class="portrait-watermark">Ofelia<br>Méndez</div>
     </div>
   </section>
