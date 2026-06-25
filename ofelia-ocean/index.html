@@ -1,0 +1,1005 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OFELIA — Where fashion meets the ocean</title>
+  <meta name="description" content="OFELIA Ocean — Where fashion meets the ocean. Wearable art inspired by the sea, by Ofelia Méndez." />
+  <meta name="theme-color" content="#0A1628" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0A1628;
+      --ocean: #0C3547;
+      --ocean-light: #1a5276;
+      --coral: #E8614D;
+      --coral-dark: #c0392b;
+      --sand: #F5F0EB;
+      --white: #FFFFFF;
+      --black: #060606;
+      --text-primary: #1a1a1a;
+      --text-secondary: rgba(0,0,0,0.55);
+      --text-light: rgba(255,255,255,0.5);
+
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', -apple-system, sans-serif;
+
+      --hero-bg: linear-gradient(135deg, #0C3547 0%, #1a5276 30%, #0e6655 60%, #0C3547 100%);
+      --portrait-bg: linear-gradient(135deg, #c4b5a0, #a89279);
+      --ocean-bg: linear-gradient(160deg, #070d1a 0%, #0C3547 50%, #0a1628 100%);
+      --texture-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection { background: rgba(232,97,77,0.2); color: var(--black); }
+    img { max-width: 100%; display: block; }
+
+    /* TEXTURA DE GRANO — se aplica como pseudo-elemento a secciones oscuras */
+    .has-grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--texture-grain);
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: overlay;
+    }
+
+    /* Fade in desde abajo */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Fade in desde la izquierda */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Fade in desde la derecha */
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Scale in */
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Stagger delays para elementos en grupo */
+    .stagger-1 { transition-delay: 0s; }
+    .stagger-2 { transition-delay: 0.15s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.45s; }
+
+    /* Hero entrance animation */
+    @keyframes heroTitle {
+      0% { opacity: 0; transform: scale(1.06); letter-spacing: 24px; }
+      100% { opacity: 1; transform: scale(1); letter-spacing: 16px; }
+    }
+    @keyframes heroSubtitle {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: translateY(0); }
+      50% { opacity: 0.15; transform: translateY(8px); }
+    }
+
+    /* Gota de agua flotando */
+    @keyframes dropFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(2deg); }
+    }
+
+    /* SECCIÓN 1 — NAVEGACIÓN */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    nav.scrolled {
+      padding: 18px 48px;
+      background: rgba(10, 22, 40, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 18px;
+      letter-spacing: 10px;
+      color: var(--white);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      opacity: 0.6;
+      transition: opacity 0.4s ease;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    /* HAMBURGER — solo visible en mobile */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 1px;
+      background: var(--white);
+      transition: all 0.4s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+    /* MOBILE MENU — fullscreen overlay */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .mobile-menu.active { opacity: 1; pointer-events: all; }
+    .mobile-menu a {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 36px;
+      letter-spacing: 6px;
+      color: var(--white);
+      text-decoration: none;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .mobile-menu.active a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Cada link con delay escalonado */
+    .mobile-menu a:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-menu a:nth-child(2) { transition-delay: 0.2s; }
+    .mobile-menu a:nth-child(3) { transition-delay: 0.3s; }
+    .mobile-menu a:nth-child(4) { transition-delay: 0.4s; }
+    .mobile-menu a:nth-child(5) { transition-delay: 0.5s; }
+
+    /* SECCIÓN 2 — HERO */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      background: var(--hero-bg);
+      background-size: cover;
+      background-position: center;
+    }
+    /* Overlay de profundidad */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(10,22,40,0.25) 0%,
+        rgba(10,22,40,0.1) 40%,
+        rgba(10,22,40,0.4) 100%
+      );
+      z-index: 1;
+    }
+    /* Textura de grano */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--texture-grain);
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: overlay;
+      opacity: 0.5;
+    }
+    /* Resplandor ambiental sutil */
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 70%, rgba(232,97,77,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 20%, rgba(20,143,119,0.06) 0%, transparent 50%);
+      z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 3; }
+    .hero-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(72px, 14vw, 180px);
+      letter-spacing: 16px;
+      color: var(--white);
+      text-transform: uppercase;
+      animation: heroTitle 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      opacity: 0;
+      /* TEXTURA EN LAS LETRAS — las letras tienen transparencia que deja ver el fondo */
+      -webkit-text-fill-color: rgba(255,255,255,0.88);
+      will-change: transform;
+    }
+    .hero-tagline {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 16px;
+      animation: heroSubtitle 1.2s ease forwards;
+      animation-delay: 0.9s;
+      opacity: 0;
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 3;
+      animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+    .scroll-indicator span {
+      font-family: var(--sans);
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+    .scroll-indicator::after {
+      content: '';
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.25), transparent);
+      margin-top: 10px;
+    }
+
+    /* SECCIÓN 3 — NEWS / LATEST */
+    .news {
+      background: var(--white);
+      padding: 100px 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 60px;
+      align-items: start;
+      min-height: 80vh;
+      position: relative;
+    }
+    .news-heading {
+      position: sticky;
+      top: 140px;
+    }
+    .news-heading h2 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(64px, 7vw, 96px);
+      color: var(--black);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      line-height: 0.85;
+    }
+
+    /* GOTA DE AGUA DECORATIVA */
+    .water-drop {
+      width: 14px;
+      height: 20px;
+      margin-top: 24px;
+      margin-left: 8px;
+      background: radial-gradient(ellipse at 40% 30%, rgba(255,255,255,0.8), rgba(12,53,71,0.06));
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: 0 2px 8px rgba(12,53,71,0.08), inset 0 -2px 4px rgba(12,53,71,0.04);
+      animation: dropFloat 4s ease-in-out infinite;
+      position: relative;
+    }
+    /* Reflejo de luz en la gota */
+    .water-drop::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 5px;
+      height: 5px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+    }
+
+    .news-cards { display: flex; flex-direction: column; gap: 28px; }
+    .news-card {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 24px;
+      align-items: start;
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .news-card:hover { transform: translateX(10px); }
+    .news-card-img {
+      width: 160px;
+      height: 110px;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    .news-card-img .img-placeholder {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.6s ease;
+    }
+    .news-card:hover .img-placeholder { transform: scale(1.08); }
+    /* Placeholder gradients para cada card */
+    .news-card:nth-child(1) .img-placeholder { background: linear-gradient(135deg, var(--ocean), var(--coral)); }
+    .news-card:nth-child(2) .img-placeholder { background: linear-gradient(135deg, #1a8a6e, var(--ocean)); }
+    .news-card:nth-child(3) .img-placeholder { background: linear-gradient(135deg, var(--coral-dark), var(--ocean-light)); }
+
+    .news-card-date {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 4px;
+    }
+    .news-card-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .news-card-preview {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+
+    /* SECCIÓN 4 — COLLECTIONS */
+    .collections {
+      background: var(--navy);
+      padding: 80px 60px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Textura grano en sección oscura */
+    .collections::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--texture-grain);
+      pointer-events: none;
+      mix-blend-mode: overlay;
+      opacity: 0.4;
+    }
+    /* Ola SVG en el top — transición de blanco a navy */
+    .collections .wave-top {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 100%;
+      z-index: 2;
+    }
+    .collections .wave-top svg {
+      display: block;
+      width: 100%;
+      height: 50px;
+    }
+
+    .coll-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 3;
+    }
+    .coll-header h2 {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--white);
+      white-space: nowrap;
+    }
+    .coll-header .line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .coll-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      position: relative;
+      z-index: 3;
+    }
+    .coll-card {
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .coll-card .bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .coll-card:hover .bg { transform: scale(1.08); }
+
+    /* Overlay que aparece en hover */
+    .coll-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.6) 100%);
+      opacity: 0.6;
+      transition: opacity 0.5s ease;
+    }
+    .coll-card:hover::after { opacity: 0.8; }
+
+    .coll-card .label {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      z-index: 2;
+      transition: transform 0.5s ease;
+    }
+    .coll-card:hover .label { transform: translateY(-6px); }
+    .coll-card .label span {
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .coll-card .label h3 {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--white);
+      margin-top: 2px;
+    }
+
+    /* Placeholder backgrounds */
+    .coll-card:nth-child(1) .bg { background: linear-gradient(160deg, #0C3547, #1a8a6e); }
+    .coll-card:nth-child(2) .bg { background: linear-gradient(160deg, #E8614D, #c0392b); }
+    .coll-card:nth-child(3) .bg { background: linear-gradient(160deg, #1a5276, #2e86c1); }
+    .coll-card:nth-child(4) .bg { background: linear-gradient(160deg, #d4ac0d, #E8614D); }
+
+    /* SECCIÓN 5 — ABOUT / FOUNDER */
+    .about {
+      display: grid;
+      grid-template-columns: 42% 58%;
+      min-height: 75vh;
+      overflow: hidden;
+    }
+    .about-text {
+      padding: 100px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--white);
+    }
+    .about-eyebrow {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 20px;
+    }
+    .about-name {
+      font-family: var(--serif);
+      font-weight: 300;
+      line-height: 0.95;
+      margin-bottom: 6px;
+    }
+    .about-name .first {
+      font-size: clamp(44px, 5vw, 64px);
+      font-style: italic;
+      display: block;
+    }
+    .about-name .last {
+      font-size: clamp(38px, 4.5vw, 56px);
+      display: block;
+    }
+    .about-line {
+      width: 40px;
+      height: 2px;
+      background: var(--coral);
+      margin: 24px 0;
+    }
+    .about-bio {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      max-width: 420px;
+    }
+
+    /* RETRATO CON FORMA ORGÁNICA CIRCULAR */
+    .about-portrait {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--sand);
+      overflow: hidden;
+    }
+    .portrait-circle {
+      width: clamp(280px, 28vw, 380px);
+      height: clamp(280px, 28vw, 380px);
+      border-radius: 50%;
+      background: var(--portrait-bg);
+      background-size: cover;
+      background-position: center top;
+      position: relative;
+      z-index: 2;
+      /* Sombra suave */
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    }
+    /* Nombre como watermark detrás del retrato */
+    .portrait-watermark {
+      position: absolute;
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(60px, 7vw, 100px);
+      color: rgba(0,0,0,0.04);
+      z-index: 1;
+      bottom: 40px;
+      right: 40px;
+      text-align: right;
+      line-height: 0.9;
+      pointer-events: none;
+    }
+    /* Anillo decorativo alrededor del retrato */
+    .portrait-ring {
+      position: absolute;
+      width: clamp(320px, 32vw, 430px);
+      height: clamp(320px, 32vw, 430px);
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.06);
+      z-index: 1;
+    }
+
+    /* SECCIÓN 6 — OCEAN SOLDIERS */
+    .ocean-soldiers {
+      height: 65vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background: var(--ocean-bg);
+      background-size: cover;
+      background-position: center;
+    }
+    .ocean-soldiers::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,22,40,0.2) 0%, rgba(10,22,40,0.7) 100%);
+      z-index: 1;
+    }
+    .ocean-soldiers::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--texture-grain);
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: overlay;
+      opacity: 0.3;
+    }
+    /* Ola SVG en el top */
+    .ocean-soldiers .wave-top {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 100%;
+      z-index: 3;
+    }
+    .ocean-soldiers .wave-top svg {
+      display: block;
+      width: 100%;
+      height: 50px;
+    }
+
+    .os-content {
+      position: relative;
+      z-index: 3;
+      padding: 60px;
+      max-width: 560px;
+    }
+    .os-content h2 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(32px, 5vw, 56px);
+      letter-spacing: 6px;
+      color: var(--white);
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .os-content p {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.4);
+      max-width: 440px;
+      line-height: 1.75;
+      margin-top: 16px;
+    }
+    .os-btn {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 14px 36px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+    .os-btn:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-2px);
+    }
+
+    /* SECCIÓN 7 — FOOTER */
+    footer {
+      background: var(--black);
+      padding: 44px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 16px;
+      letter-spacing: 8px;
+      color: rgba(255,255,255,0.25);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .footer-social { display: flex; gap: 24px; }
+    .footer-social a {
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      text-decoration: none;
+      transition: color 0.4s ease;
+    }
+    .footer-social a:hover { color: var(--white); }
+    .footer-copy {
+      font-family: var(--sans);
+      font-size: 10px;
+      color: rgba(255,255,255,0.12);
+    }
+
+    /* RESPONSIVE — MEDIA QUERIES */
+    @media (max-width: 1024px) {
+      .news { grid-template-columns: 200px 1fr; padding: 80px 48px; gap: 40px; }
+      .coll-grid { grid-template-columns: repeat(2, 1fr); }
+      .about { grid-template-columns: 1fr; }
+      .about-portrait { height: 50vh; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      nav.scrolled { padding: 14px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-title { letter-spacing: 8px; }
+
+      .news {
+        grid-template-columns: 1fr;
+        padding: 60px 24px;
+        gap: 32px;
+      }
+      .news-heading h2 {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 52px;
+      }
+      .water-drop { display: inline-block; margin-left: 12px; vertical-align: middle; }
+
+      .news-card { grid-template-columns: 1fr; gap: 12px; }
+      .news-card-img { width: 100%; height: 200px; }
+
+      .collections { padding: 60px 24px 80px; }
+      .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+
+      .about-text { padding: 48px 24px; }
+      .about-portrait { height: 60vh; }
+      .portrait-circle { width: 240px; height: 240px; }
+      .portrait-ring { width: 280px; height: 280px; }
+
+      .os-content { padding: 40px 24px; }
+
+      footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        padding: 36px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Ofelia</a>
+    <ul class="nav-links">
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#ocean-soldiers">Ocean Soldiers</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#collections">Collections</a>
+    <a href="#news">News</a>
+    <a href="#ocean-soldiers">Ocean Soldiers</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <section class="hero" id="home">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Ofelia</h1>
+      <p class="hero-tagline">Where fashion meets the ocean</p>
+    </div>
+    <div class="scroll-indicator"><span>Scroll</span></div>
+    <div class="wave-divider" style="position:absolute;bottom:-1px;left:0;width:100%;z-index:4;">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+        <path d="M0,50 C240,80 480,20 720,45 C960,70 1200,15 1440,50 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="news" id="news">
+    <div class="news-heading reveal-left">
+      <h2>Latest</h2>
+      <div class="water-drop"></div>
+    </div>
+    <div class="news-cards">
+      <article class="news-card reveal stagger-1">
+        <div class="news-card-img"><div class="img-placeholder"></div></div>
+        <div>
+          <div class="news-card-date">June 2026</div>
+          <h3 class="news-card-title">OFELIA at Fashion Week Panamá</h3>
+          <p class="news-card-preview">A tribute to the ocean's beauty on Panama's biggest runway. Presenting the I Sea You collection.</p>
+        </div>
+      </article>
+      <article class="news-card reveal stagger-2">
+        <div class="news-card-img"><div class="img-placeholder"></div></div>
+        <div>
+          <div class="news-card-date">May 2026</div>
+          <h3 class="news-card-title">The Talisman Collection</h3>
+          <p class="news-card-preview">Inspired by coral reef textures and the vibrant colors of tropical marine life.</p>
+        </div>
+      </article>
+      <article class="news-card reveal stagger-3">
+        <div class="news-card-img"><div class="img-placeholder"></div></div>
+        <div>
+          <div class="news-card-date">April 2026</div>
+          <h3 class="news-card-title">Coral Restoration in Bocas del Toro</h3>
+          <p class="news-card-preview">Ocean Soldiers' latest initiative protecting Panama's Caribbean reefs.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="collections" id="collections">
+    <div class="wave-top">
+      <svg viewBox="0 0 1440 50" preserveAspectRatio="none">
+        <path d="M0,0 L0,30 C360,50 720,10 1080,35 C1260,45 1380,20 1440,30 L1440,0 Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="coll-header reveal">
+      <h2>Collections</h2>
+      <div class="line"></div>
+    </div>
+    <div class="coll-grid">
+      <div class="coll-card reveal-scale stagger-1"><div class="bg"></div><div class="label"><span>SS26</span><h3>I Sea You</h3></div></div>
+      <div class="coll-card reveal-scale stagger-2"><div class="bg"></div><div class="label"><span>SS26</span><h3>Talisman</h3></div></div>
+      <div class="coll-card reveal-scale stagger-3"><div class="bg"></div><div class="label"><span>FW25</span><h3>Synergy</h3></div></div>
+      <div class="coll-card reveal-scale stagger-4"><div class="bg"></div><div class="label"><span>FW25</span><h3>Borealis</h3></div></div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-text">
+      <span class="about-eyebrow reveal">About</span>
+      <h2 class="about-name reveal" style="transition-delay:0.1s">
+        <span class="first">Ofelia</span>
+        <span class="last">Méndez</span>
+      </h2>
+      <div class="about-line reveal" style="transition-delay:0.2s"></div>
+      <p class="about-bio reveal" style="transition-delay:0.3s">Panamanian entrepreneur with a distinguished career spanning aviation, automotive, and banking. As founding Vice President of A.D.E.A.N. at Paitilla Airport and later leading MMC Panamá, she built a legacy of leadership across industries.</p>
+      <p class="about-bio reveal" style="transition-delay:0.4s;margin-top:16px">Driven by her deep connection to the sea, Ofelia created a brand that transforms the ocean's beauty into wearable art — a tribute to nature and a call to protect our seas.</p>
+    </div>
+    <div class="about-portrait">
+      <div class="portrait-ring reveal-scale"></div>
+      <div class="portrait-circle reveal-scale" style="transition-delay:0.2s"></div>
+      <div class="portrait-watermark">Ofelia<br>Méndez</div>
+    </div>
+  </section>
+
+  <section class="ocean-soldiers" id="ocean-soldiers">
+    <div class="wave-top">
+      <svg viewBox="0 0 1440 50" preserveAspectRatio="none">
+        <path d="M0,0 L0,25 C480,50 960,5 1440,30 L1440,0 Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="os-content">
+      <h2 class="reveal">Ocean<br>Soldiers</h2>
+      <p class="reveal" style="transition-delay:0.15s">A global movement committed to preserving coral reefs and the marine ecosystem. Our oceans sustain all life on Earth — they need our protection now more than ever.</p>
+      <a href="#" class="os-btn reveal" style="transition-delay:0.3s">Learn More</a>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <a href="#" class="footer-logo">Ofelia</a>
+    <span class="footer-copy">© 2026 OFELIA Ocean</span>
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer — animaciones al scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Navbar scroll effect
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      const scrollY = window.scrollY;
+      if (scrollY > 80) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+      lastScroll = scrollY;
+    }, { passive: true });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Parallax sutil en hero (solo desktop)
+    if (window.innerWidth > 768) {
+      window.addEventListener('scroll', () => {
+        const hero = document.querySelector('.hero');
+        const scrollY = window.scrollY;
+        if (scrollY < window.innerHeight) {
+          hero.style.backgroundPositionY = `${scrollY * 0.3}px`;
+        }
+      }, { passive: true });
+    }
+  </script>
+</body>
+</html>
