@@ -371,6 +371,9 @@
       font-weight: 700;
       font-size: clamp(90px, 11vw, 150px);
       color: var(--black);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
       line-height: 0.82;
       letter-spacing: 2px;
     }
@@ -938,6 +941,8 @@
         position: static;
       }
       .news-heading h2 {
+        writing-mode: horizontal-tb;
+        transform: none;
         font-size: clamp(48px, 16vw, 72px);
         line-height: 1;
       }
