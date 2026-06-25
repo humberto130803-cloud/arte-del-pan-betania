@@ -353,24 +353,25 @@
     .news-heading-inner {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
     }
     .news-eyebrow {
       font-family: var(--sans);
       font-weight: 500;
-      font-size: 11px;
-      letter-spacing: 6px;
+      font-size: 13px;
+      letter-spacing: 8px;
       text-transform: uppercase;
       color: var(--coral);
       writing-mode: horizontal-tb;
       transform: none;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     .news-heading h2 {
       font-family: var(--serif);
       font-weight: 700;
       font-size: clamp(90px, 11vw, 150px);
       color: var(--black);
+      text-transform: uppercase;
       writing-mode: vertical-rl;
       text-orientation: mixed;
       transform: rotate(180deg);
@@ -378,28 +379,29 @@
       letter-spacing: 2px;
     }
 
-    /* GOTA DE AGUA DECORATIVA */
+    /* GOTA DE AGUA DECORATIVA — a la derecha del texto, a media altura */
     .water-drop {
-      width: 14px;
-      height: 20px;
-      margin-top: 24px;
-      margin-left: 8px;
-      background: radial-gradient(ellipse at 40% 30%, rgba(255,255,255,0.8), rgba(12,53,71,0.06));
+      width: 34px;
+      height: 44px;
+      background: radial-gradient(ellipse at 38% 28%, rgba(255,255,255,0.95), rgba(176,196,210,0.55) 55%, rgba(12,53,71,0.12));
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      box-shadow: 0 2px 8px rgba(12,53,71,0.08), inset 0 -2px 4px rgba(12,53,71,0.04);
+      box-shadow: 0 8px 20px rgba(12,53,71,0.16), inset 0 -4px 8px rgba(12,53,71,0.08), inset 0 3px 6px rgba(255,255,255,0.5);
       animation: dropFloat 4s ease-in-out infinite;
-      position: relative;
+      position: absolute;
+      top: 42%;
+      left: 200px;
     }
     /* Reflejo de luz en la gota */
     .water-drop::before {
       content: '';
       position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 5px;
-      height: 5px;
-      background: rgba(255,255,255,0.9);
+      top: 9px;
+      left: 9px;
+      width: 10px;
+      height: 8px;
+      background: rgba(255,255,255,0.95);
       border-radius: 50%;
+      filter: blur(0.5px);
     }
 
     /* GOTAS DE AGUA — variantes de tamaño */
