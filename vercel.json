@@ -1,0 +1,6 @@
+{
+  "framework": null,
+  "buildCommand": "echo 'OFELIA Ocean — static site, no build step'",
+  "installCommand": "echo 'no install needed'",
+  "outputDirectory": "ofelia-ocean"
+}
